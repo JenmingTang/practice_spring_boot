@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>personShow</title>
+</head>
+<body>
+<h1>personShow</h1>
+<table>
+    <thead>
+    <tr>
+        <td>id</td>
+        <td>name</td>
+        <td>remark</td>
+        <td>operate</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="person:${people}">
+        <td th:text="${person.id}"></td>
+        <td th:text="${person.name}"></td>
+        <td th:text="${person.remark}"></td>
+        <td>
+            <!--            ok-->
+            <!--            <a th:href="@{'/delete/'+${person.id}}">delete</a>-->
+            <!--            ok-->
+            <a th:href="${'/delete/'+person.id}">delete</a>
+            <!--            ok-->
+            <!--            <a th:href="@{'/changePerson/'+${person.id}}">change</a>-->
+            <!--            ok-->
+            <a th:href="'/changePerson/'+${person.id}">change</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<!--能动 href="/goAddPersonPage" 能静 href="/goAddPersonPage。html"-->
+<a href="/goAddPersonPage">add</a>
+
+</body>
+</html>

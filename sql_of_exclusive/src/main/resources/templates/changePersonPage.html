@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>changePersonPage</title>
+</head>
+<body>
+<h1>changePersonPage</h1>
+<!--能动 href="/changePerson" 能静吧？？？ href="/changePersonPage.html"-->
+<!--不加 / 就会叠起来-->
+<form action="/changePerson">
+    <!--    传过来就有 id 了-->
+<!--    form get 会直接显示参数在路径上-->
+    <input type="hidden" name="id" th:value="${person.id}">
+    <input type="text" name="name" th:value="${person.name}">
+    <input type="text" name="remark" th:value="${person.remark}">
+    <input type="submit" value="submit">
+</form>
+</body>
+</html>

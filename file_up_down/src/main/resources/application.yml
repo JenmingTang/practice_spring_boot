@@ -1,0 +1,29 @@
+spring:
+  servlet:
+    multipart:
+      location: D:\\spring_file_up_down_temp
+      file-size-threshold: 0B
+      enabled: true
+      max-file-size: 1MB
+      max-request-size: 10MB
+      resolve-lazily: false
+
+#===========================================
+#静态 .xxx 能跳到静态目录文件
+
+#      配置了 thyme leaf 依赖
+#         动态跳转 会取代 静态跳转（跳转会全变为动态的 ）
+#         跳转时！！！ templates  --》 templates 第一个（页面，别的文件没试）文件
+#跳转时，动态目录没有，直接第一个文件了
+#===========================================
+
+
+#classpath:[/META-INF/resources/, /resources/, /static/, /public/].
+#templates 静态加后缀也能访问到
+#  web:
+#    resources:
+#      static-locations:
+server:
+  port: 10000
+
+

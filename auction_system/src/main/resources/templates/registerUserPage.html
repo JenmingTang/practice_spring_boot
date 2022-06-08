@@ -1,0 +1,57 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<!--  直接到 static 目录里-->
+<link href="css/common.css" rel="stylesheet" type="text/css" />
+<!--  不要这样-->
+<!--  <link href="./../static/css/common.css" rel="stylesheet" type="text/css" />-->
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<!--  <link href="./../static/css/style.css" rel="stylesheet" type="text/css" />-->
+</head>
+
+<body>
+<div class="wrap">
+  <form method="post" action="/registerUser">
+    <!-- main begin-->
+    <div class="zclf login logns">
+      <h1  class="blue">用户注册</h1>
+      <dl>
+        <dd>
+          <label> <small>*</small>用户名</label>
+          <input type="text" class="inputh lf"  name="username" />
+        </dd>
+        <dd>
+          <label> <small>*</small>密码</label>
+          <input type="text" class="inputh lf" name="userpassword" />
+
+        </dd>
+        <dd>
+          <label> <small>*</small>身份证号</label>
+          <input type="text" class="inputh lf" name="usercardno" />
+
+        </dd>
+        <dd>
+          <label> <small>*</small>电话</label>
+          <input type="text" class="inputh lf" name="usertel" />
+
+        </dd>
+        <dd>
+          <label> <small>*</small>住址</label>
+          <input type="text" class="inputh lf" name="useraddress"  />
+        </dd>
+        <dd>
+          <label> <small>*</small>邮政编码</label>
+          <input type="text" class="inputh lf" name="userpostnumber"/>
+        </dd>
+        <dd class="hegas">
+          <label>&nbsp;</label>
+          <input name="" type="submit" value="立即注册" class="spbg buttombg buttombgs f14 lf" />
+        </dd>
+      </dl>
+    </div>
+  </form>
+
+</div>
+</body>
+</html>

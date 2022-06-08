@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+    <modules>
+        <module>file_up_down</module>
+        <module>sql_of_exclusive</module>
+        <module>jdbc_template_multi_source</module>
+        <module>mybatis_with_spring_boot</module>
+        <module>mybatis_multi_source</module>
+        <module>auction_system</module>
+        <module>mybatis_collection_association</module>
+        <module>redis_not_reactive_redis</module>
+    </modules>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.0</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.example</groupId>
+    <artifactId>practice_spring_boot</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>practice_spring_boot</name>
+    <description>Demo project for Spring Boot</description>
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-test</artifactId>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+<!--                上面爆红就找下仓库版本-->
+<!--                <version>2.7.0</version>-->
+<!--
+addResources启用后
+任何目录src/main/resources都将添加到应用程序类路径中
+，并且target/classes将删除在其中找到的任何重复项。这允许热刷新资源，这在开发 Web 应用程序时非常有用。
+例如，您可以处理 HTML、CSS 或 JavaScript 文件并立即查看您的更改，而无需重新编译您的应用程序。
+https://docs.spring.io/spring-boot/docs/2.7.0/maven-plugin/reference/htmlsingle/#run
+
+要手动粘贴到 target-》classes -》 static（静态目录） 下
+-->
+<!--                <configuration>-->
+<!--                    <addResources>true</addResources>-->
+<!--                </configuration>-->
+<!--                <configuration>-->
+<!--                    -->
+<!--                    <excludes>-->
+<!--                        <exclude>-->
+<!--                            <groupId>org.projectlombok</groupId>-->
+<!--                            <artifactId>lombok</artifactId>-->
+<!--                        </exclude>-->
+<!--                    </excludes>-->
+<!--                </configuration>-->
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

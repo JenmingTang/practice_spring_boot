@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shop.mapper.AuctionCustomerMapper" >
+
+  <resultMap id="auctionMap" type="com.shop.pojo.Auction">
+    <id column="auctionId" property="auctionid" />
+    <result column="auctionName" property="auctionname"  />
+    <result column="auctionStartPrice" property="auctionstartprice" />
+    <result column="auctionUpset" property="auctionupset" />
+    <result column="auctionStartTime" property="auctionstarttime"  />
+    <result column="auctionEndTime" property="auctionendtime"  />
+    <result column="auctionPic" property="auctionpic" />
+    <result column="auctionPicType" property="auctionpictype" />
+    <result column="auctionDesc" property="auctiondesc"  />
+
+    <!--一对多关系-->
+    <collection property="auctionrecodList" ofType="com.shop.pojo.Auctionrecord">
+      <id column="record_id" property="id" />
+      <result column="record_user_id" property="userid"  />
+      <result column="record_auction_id" property="auctionid"  />
+      <result column="auctionPrice" property="auctionprice"  />
+      <result column="auctionTime" property="auctiontime" />
+
+      <!--一对一关系-->
+      <association property="user" javaType="com.shop.pojo.User" >
+        <id column="record_user_id" property="userid" />
+        <result column="userName" property="username"  />
+      </association>
+    </collection>
+  </resultMap>
+
+
+
+  <!--根据auctionId查询出拍卖品详情和拍卖纪录信息-->
+  <select id="selectAuctionAndAuctionRecordList" parameterType="int" resultMap="auctionMap">
+    SELECT auction.*,
+       auctionrecord.id record_id,
+			 auctionrecord.auctionId record_auction_id,
+			 auctionrecord.userId record_user_id,
+			 auctionrecord.auctionPrice,
+			 auctionrecord.auctionTime,
+			 `user`.userId,
+			 `user`.userName
+    from  auction
+    left JOIN
+    auctionrecord
+    ON auction.auctionId = auctionrecord.auctionId
+
+    left JOIN `user`
+
+    ON auctionrecord.userId = `user`.userId
+
+    WHERE auction.auctionId = #{auctionId}
+
+    order by  auctionrecord.auctionPrice DESC
+  </select>
+
+
+  <!--查询已经结束的拍卖商品-->
+  <select id="selectAuctionendtime" resultType="com.shop.pojo.AuctionCustomer">
+SELECT
+	auction.auctionname,
+	auction.auctionstarttime,
+	auction.auctionendtime,
+	auction.auctionstartprice,
+	auctionrecord.auctionprice,
+	`user`.username
+  FROM
+	auction,auctionrecord,`user`
+  WHERE
+	auction.auctionid=auctionrecord.auctionid
+	AND auctionrecord.userid=`user`.userid
+	AND auction.auctionendtime <![CDATA[<]]>NOW()
+	AND auctionrecord.auctionprice=
+	(SELECT MAX(r.auctionprice) FROM auctionrecord r
+				  WHERE r.auctionid=auction.auctionid)
+
+  </select>
+
+  <!--查询正在拍卖的商品-->
+  <select id="selectAuctionNoendtime" resultMap="auctionMap">
+     SELECT auction.*,
+		auctionrecord.id record_id,
+		auctionrecord.userId recored_user_id,
+		auctionrecord.auctionId record_auction_id,
+		auctionrecord.auctionTime,
+		auctionrecord.auctionPrice,
+		`user`.userName
+  FROM
+	auction,auctionrecord,`user`
+  WHERE
+	 auction.auctionid=auctionrecord.auctionid
+	 AND auctionrecord.userid=`user`.userid
+	 AND auction.auctionendtime>NOW()
+
+  </select>
+</mapper>

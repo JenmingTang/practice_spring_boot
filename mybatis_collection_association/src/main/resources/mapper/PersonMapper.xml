@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.PersonMapper">
+    <!--    不要让 association collection 嵌套 ，在 resultMap 只装其中一个-->
+    <!--
+
+    Person(id=3, name=person2, cats=[Cat(id=4, person_id=3, name=cat3, person=Person(id=3, name=person2, cats=null)), Cat(id=5, person_id=3, name=cat4, person=Person(id=3, name=person2, cats=null))])
+    Person(id=4, name=person3, cats=[])
+    这个最正常,但有许多 select 查询嵌套,在迭代中查询
+    N+1 查询问题，可以用 MySQL 存储过程解决，mybatis 有教程，但我的要求需要依赖上一个结果集的字段才能下一步，所以存储过程没用
+    N+1 查询问题，可以用 MySQL 存储过程解决，mybatis 有教程，但我的要求需要依赖上一个结果集的字段才能下一步，所以存储过程没用
+    N+1 查询问题，可以用 MySQL 存储过程解决，mybatis 有教程，但我的要求需要依赖上一个结果集的字段才能下一步，所以存储过程没用
+    -->
+    <!--        <select id="person_cats_map_person" resultType="com.pojo.Person">-->
+    <!--            select *-->
+    <!--            from people-->
+    <!--            where id = #{id}-->
+    <!--        </select>-->
+    <!--        <resultMap id="person_cats_map" type="com.pojo.Cat">-->
+    <!--            <association property="person" select="person_cats_map_person" column="{id=person_id}"/>-->
+    <!--        </resultMap>-->
+    <!--        <select id="person_cats" resultMap="person_cats_map">-->
+    <!--            select *-->
+    <!--            from cats-->
+    <!--            where person_id = #{person_id}-->
+    <!--        </select>-->
+    <!--        <resultMap id="BaseResultMap" type="com.pojo.Person">-->
+    <!--            <collection property="cats" select="person_cats" column="{person_id=id}"/>-->
+    <!--        </resultMap>-->
+    <!--        <select id="selectAllPerson" resultMap="BaseResultMap">-->
+    <!--            select *-->
+    <!--            from people-->
+    <!--        </select>-->
+
+    <!--    ========================================推荐用下面的方法-->
+    <!--    ========================================推荐用下面的方法-->
+    <!--    ========================================推荐用下面的方法-->
+
+    <resultMap id="resultMap0" type="com.pojo.Person">
+        <id property="id" column="person_id"/>
+        <result property="name" column="person_name"/>
+        <collection property="cats" column="" ofType="com.pojo.Cat">
+            <id property="id" column="cat_id"/>
+            <result property="name" column="cat_name"/>
+            <result property="person_id" column="cat_person_id"/>
+            <association property="person" javaType="com.pojo.Person">
+                <id property="id" column="person_id"/>
+                <result property="name" column="person_name"/>
+            </association>
+        </collection>
+    </resultMap>
+    <!--    没有许多 select -->
+    <!--
+    from people 左外连 cats
+    1	person0	3	cat2	1
+    1	person0	2	cat1	1
+    1	person0	1	cat0	1
+    2	person1	6	cat5	2
+    3	person2	5	cat4	3
+    3	person2	4	cat3	3
+    4	person3
+
+
+
+left outer join，左外，第四条 person 没猫啊??,
+Person(id=3, name=person2, cats=[Cat(id=5, person_id=3, name=cat4, person=Person(id=3, name=person2, cats=null)), Cat(id=4, person_id=3, name=cat3, person=Person(id=3, name=person2, cats=null))])
+Person(id=4, name=person3, cats=[Cat(id=null, person_id=null, name=null, person=Person(id=4, name=person3, cats=null))])
+右外连就正常了，但接口要的就是 Person list 所以要用左外
+    -->
+    <select id="selectAllPerson" resultMap="resultMap0">
+        select people.id      as person_id,
+               people.`name`  as person_name,
+               cats.id        as cat_id,
+               cats.`name`    as cat_name,
+               cats.person_id as cat_person_id
+        from people
+                 left outer join cats
+                                 on people.id = cats.person_id;
+    </select>
+
+
+</mapper>

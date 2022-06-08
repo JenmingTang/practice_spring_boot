@@ -1,0 +1,12 @@
+#自动探测存在的 DataSource
+#MyBatis-Spring-Boot-Starter 将默认搜寻带有 @Mapper 注解的 mapper 接口。
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql:///ssm?useUnicode=true&characterEncoding=UTF-8
+    #    url: jdbc:mysql://localhost:3306/ssm?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: root
+server:
+  port: 8084
